@@ -1,6 +1,7 @@
 ;; This is where your customizations should live
 (package-initialize)
 (evil-mode 1)
+(setq evil-default-cursor t)
 ;; env PATH
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
