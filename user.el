@@ -4,6 +4,7 @@
 (evil-mode 1)
 (setq evil-default-cursor t)
 (desktop-save-mode 0)
+(global-auto-revert-mode t)  ; auto reload all buffers
 
 ;; ------- desktop config
 ;; use only one desktop
