@@ -6,6 +6,11 @@
 (desktop-save-mode 0)
 (global-auto-revert-mode t)  ; auto reload all buffers
 
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
 (cua-mode t)
     (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
     (transient-mark-mode 1)               ;; No region when it is not highlighted
