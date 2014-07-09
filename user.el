@@ -6,6 +6,54 @@
 (desktop-save-mode 0)
 (global-auto-revert-mode t)  ; auto reload all buffers
 
+
+(setq indent-tabs-mode t)
+(setq-default indent-tabs-mode t)
+(global-set-key (kbd "TAB") 'self-insert-command)
+(setq default-tab-width 4)
+;(setq tab-width 4)
+;(setq c-basic-indent 4)
+
+;; this mode-hook is taken straight from the comments in autopair.el
+(add-hook 'python-mode-hook
+		   (lambda()
+    (local-set-key (kbd "C-c <right>") 'hs-show-block)
+    (local-set-key (kbd "C-c <left>")  'hs-hide-block)
+    (local-set-key (kbd "C-c <up>")    'hs-hide-all)
+    (local-set-key (kbd "C-c <down>")  'hs-show-all)
+    (hs-minor-mode t))
+	)
+
+
+(defun write-room ()
+  "Make a frame without any bling."
+  (interactive)
+  ;; to restore:
+  ;; (setq mode-line-format (default-value 'mode-line-format))
+  (let ((frame (make-frame '((minibuffer . nil)
+			     (vertical-scroll-bars . nil)
+			     (left-fringe . 0); no fringe
+			     (right-fringe . 0)
+			     (background-mode . dark)
+			     (background-color . "black")
+			     (foreground-color . "green")
+			     (cursor-color . "green")
+			     (border-width . 0)
+			     (border-color . "black"); should be unnecessary
+			     (internal-border-width . 64); whitespace!
+			     (cursor-type . box)
+			     (menu-bar-lines . 0)
+			     (tool-bar-lines . 0)
+			     (mode-line-format . nil) ; dream on... has no effect
+			     (fullscreen . fullboth)  ; this should work
+			     (unsplittable . t)))))
+    (select-frame frame)
+    (find-file "~/NOTES")
+    (setq mode-line-format nil); is buffer local unfortunately
+    ;; maximize window if fullscreen above had no effect
+    (when (fboundp 'w32-send-sys-command)
+      (w32-send-sys-command 61488 frame))))
+
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
