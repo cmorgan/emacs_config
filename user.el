@@ -14,6 +14,19 @@
 ;(setq tab-width 4)
 ;(setq c-basic-indent 4)
 
+
+;; keep visual mode active when indenting
+(define-key evil-visual-state-map (kbd "<") (lambda ()
+  (interactive)
+  (evil-shift-left (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+(define-key evil-visual-state-map (kbd ">") (lambda ()
+  (interactive)
+  (evil-shift-right (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+
 ;; this mode-hook is taken straight from the comments in autopair.el
 (add-hook 'python-mode-hook
 		   (lambda()
