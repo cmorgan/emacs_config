@@ -5,7 +5,7 @@
 (setq evil-default-cursor t)
 (desktop-save-mode 0)
 (global-auto-revert-mode t)  ; auto reload all buffers
-
+(setq auto-save-default nil)
 
 (setq indent-tabs-mode t)
 (setq-default indent-tabs-mode t)
