@@ -7,6 +7,48 @@
 (global-auto-revert-mode t)  ; auto reload all buffers
 (setq auto-save-default nil)
 
+;;  ;; magit stuff!!
+;; (magit-file-header ((t (:foreground "violet"))))
+;; (magit-hunk-header ((t (:foreground "blue"))))
+;; (magit-header ((t (:foreground "cyan"))))
+;; (magit-tag-label ((t (:background "blue" :foreground "orange"))))
+;; (magit-diff-add ((t (:foreground "MediumSlateBlue"))))
+;; (magit-diff-del ((t (:foreground "maroon"))))
+;; ;(magit-item-highlight ((t (:background "#000012"))))
+
+(defun disable-magit-highlight-in-buffer () 
+  (face-remap-add-relative 'magit-item-highlight '()))
+(add-hook 'magit-status-mode-hook 'disable-magit-highlight-in-buffer)
+
+(define-key global-map "\C-cf" 'projectile-find-file)
+
+(setq find-file-wildcards t)
+
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(add-to-list 'load-path "~/.emacs.d/elpa/tabbar/")
+(require 'tabbar)
+(global-set-key (kbd "C-h") 'tabbar-backward)
+(global-set-key (kbd "C-l") 'tabbar-forward)
+
+(global-set-key (kbd "C-c h") 'tabbar-backward-group)
+(global-set-key (kbd "C-c l") 'tabbar-forward-group)
+
+;; `tabbar-backward-group'     (C-c <C-up>)
+;; `tabbar-forward-group'      (C-c <C-down>)
+
+
+(global-set-key [M-left] 'tabbar-backward-tab)
+(global-set-key [M-right] 'tabbar-forward-tab)
+
+
 (setq indent-tabs-mode t)
 (setq-default indent-tabs-mode t)
 (global-set-key (kbd "TAB") 'self-insert-command)
@@ -91,6 +133,7 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
 
 ;; ------- desktop config
 ;; use only one desktop
@@ -99,12 +142,12 @@
 (setq desktop-base-file-name "emacs-desktop")
 
 ;; remove desktop after it's been read
-(add-hook 'desktop-after-read-hook
-	  '(lambda ()
-	     ;; desktop-remove clears desktop-dirname
-	     (setq desktop-dirname-tmp desktop-dirname)
-	     (desktop-remove)
-	     (setq desktop-dirname desktop-dirname-tmp)))
+;; (add-hook 'desktop-after-read-hook
+;; 	  '(lambda ()
+;; 	     ;; desktop-remove clears desktop-dirname
+;; 	     (setq desktop-dirname-tmp desktop-dirname)
+;; 	     (desktop-remove)
+;; 	     (setq desktop-dirname desktop-dirname-tmp)))
 
 (defun saved-session ()
   (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
