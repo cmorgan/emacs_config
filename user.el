@@ -211,6 +211,45 @@
 		      (modify-syntax-entry ?\_ "w")))))
 
 
+
+(use-package sql
+  :init (progn
+	  (add-hook 'sql-mode-hook
+		    (lambda ()
+		      (modify-syntax-entry ?\_ "w")))))
+
+(use-package whitespace
+  :ensure t
+  :init (timeit
+	 "WHITESPACE"
+	 (hook-into-modes 'whitespace-mode '(python-mode-hook))
+	 ;; Highlight portion of lines >79
+	 (setq whitespace-line-column 79)
+	 (setq whitespace-style '(face lines-tail))))
+
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :config (progn
+	    (setq indent-tabs-mode nil)
+	    (setq evil-shift-width 2)
+	    (setq tab-width 2)))
+
+
+(use-package cider
+  :commands cider-jack-in)
+
+
+
+(use-package org
+  :init (progn
+	    (global-set-key (kbd "C-c o a") 'org-agenda)
+	    (global-set-key (kbd "C-c o c") 'org-capture)
+	    (global-set-key (kbd "C-c o l") 'org-store-link)
+		)
+  )
+
+
+
 (require 'magit)
 ;;  ;; magit stuff!!
 ;(magit-file-header ((t (:foreground "violet"))))
