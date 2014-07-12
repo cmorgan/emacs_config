@@ -7,18 +7,43 @@
 (global-auto-revert-mode t)  ; auto reload all buffers
 (setq auto-save-default nil)
 
+(require 'magit)
 ;;  ;; magit stuff!!
-;; (magit-file-header ((t (:foreground "violet"))))
-;; (magit-hunk-header ((t (:foreground "blue"))))
+;(magit-file-header ((t (:foreground "violet"))))
+;(magit-hunk-header ((t (:foreground "blue"))))
 ;; (magit-header ((t (:foreground "cyan"))))
 ;; (magit-tag-label ((t (:background "blue" :foreground "orange"))))
 ;; (magit-diff-add ((t (:foreground "MediumSlateBlue"))))
 ;; (magit-diff-del ((t (:foreground "maroon"))))
-;; ;(magit-item-highlight ((t (:background "#000012"))))
 
+;; change magit diff colors
+
+(eval-after-load 'magit
+  '(set-face-attribute 'magit-item-highlight () :bold t :background ()))
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")
+
+     (when (not window-system)
+       (set-face-background 'magit-item-highlight "black"))))
 (defun disable-magit-highlight-in-buffer () 
+  
   (face-remap-add-relative 'magit-item-highlight '()))
+
+
 (add-hook 'magit-status-mode-hook 'disable-magit-highlight-in-buffer)
+
+
+ (defface magit-item-highlight
+   (if magit-diff-use-overlays
+       '((((background light)) :background "grey")
+         (((background dark)) :background "gray16"))
+     '((t :bold t)))
+   "Face for highlighting the current item.
+ Also see option `magit-diff-use-overlays'."
+   :group 'magit-faces
+   :set-after '(magit-diff-use-overlays))
 
 (define-key global-map "\C-cf" 'projectile-find-file)
 
@@ -38,8 +63,8 @@
 (global-set-key (kbd "C-h") 'tabbar-backward)
 (global-set-key (kbd "C-l") 'tabbar-forward)
 
-(global-set-key (kbd "C-c h") 'tabbar-backward-group)
-(global-set-key (kbd "C-c l") 'tabbar-forward-group)
+(global-set-key (kbd "C-j") 'tabbar-backward-group)
+(global-set-key (kbd "C-k") 'tabbar-forward-group)
 
 ;; `tabbar-backward-group'     (C-c <C-up>)
 ;; `tabbar-forward-group'      (C-c <C-down>)
@@ -152,6 +177,7 @@
 (defun saved-session ()
   (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
 
+(setq magit-diff-use-overlays nil)
 ;; use session-restore to restore the desktop manually
 (defun session-restore ()
   "Restore a saved emacs session."
