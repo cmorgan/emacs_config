@@ -130,9 +130,6 @@
   :init (progn
 	  (menu-bar-mode 0)))
 
-(use-package frame
-  :init (progn
-	  (blink-cursor-mode)))
 
 (use-package paren
   :init (progn
@@ -248,58 +245,6 @@
 		)
   )
 
-
-
-(require 'magit)
-;;  ;; magit stuff!!
-;(magit-file-header ((t (:foreground "violet"))))
-;(magit-hunk-header ((t (:foreground "blue"))))
-;; (magit-header ((t (:foreground "cyan"))))
-;; (magit-tag-label ((t (:background "blue" :foreground "orange"))))
-;; (magit-diff-add ((t (:foreground "MediumSlateBlue"))))
-;; (magit-diff-del ((t (:foreground "maroon"))))
-
-;; change magit diff colors
-
-(eval-after-load 'magit
-  '(set-face-attribute 'magit-item-highlight () :bold t :background ()))
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")
-
-     (when (not window-system)
-       (set-face-background 'magit-item-highlight "black"))))
-(defun disable-magit-highlight-in-buffer () 
-  
-  (face-remap-add-relative 'magit-item-highlight '()))
-
-
-(add-hook 'magit-status-mode-hook 'disable-magit-highlight-in-buffer)
-
-
- (defface magit-item-highlight
-   (if magit-diff-use-overlays
-       '((((background light)) :background "grey")
-         (((background dark)) :background "gray16"))
-     '((t :bold t)))
-   "Face for highlighting the current item.
- Also see option `magit-diff-use-overlays'."
-   :group 'magit-faces
-   :set-after '(magit-diff-use-overlays))
-
-(define-key global-map "\C-cf" 'projectile-find-file)
-
-(setq find-file-wildcards t)
-
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (add-to-list 'load-path "~/.emacs.d/elpa/tabbar/")
 (require 'tabbar)
