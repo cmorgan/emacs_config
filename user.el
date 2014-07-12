@@ -216,13 +216,6 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-;; Uncomment the lines below by removing semicolons and play with the
-;; values in order to set the width (in characters wide) and height
-;; (in lines high) Emacs will have whenever you start it
-
-;; (setq initial-frame-alist '((top . 0) (left . 0) (width . 20) (height . 20)))
-
-
 ;; Place downloaded elisp files in this directory. You'll then be able
 ;; to load them.
 ;;
@@ -243,8 +236,6 @@
 ;; Themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-;; Uncomment this to increase font size
-;; (set-face-attribute 'default nil :height 140)
 (load-theme 'tomorrow-night-bright t)
 
 ;; Flyspell often slows down editing so it's turned off
@@ -257,9 +248,3 @@
 (setq hippie-expand-try-functions-list (delete 'try-complete-file-name-partially hippie-expand-try-functions-list))
 
 (setq ido-use-filename-at-point nil)
-
-;; Save here instead of littering current directory with emacs backup files
-(setq backup-directory-alist `(("." . "~/.saves")))
-
-
-
