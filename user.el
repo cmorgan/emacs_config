@@ -7,6 +7,65 @@
 (global-auto-revert-mode t)  ; auto reload all buffers
 (setq auto-save-default nil)
 
+(load-file "~/.emacs.d/util.el")
+
+(global-set-key "\C-x\C-b" 'buffer-menu)
+(global-set-key (kbd "C-c h") 'windmove-left)
+(global-set-key (kbd "C-c j") 'windmove-down)
+(global-set-key (kbd "C-c k") 'windmove-up)
+(global-set-key (kbd "C-c l") 'windmove-right)
+(global-set-key (kbd "C-c t") 'ansi-term)
+(global-set-key (kbd "C-c i") (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
+
+;; Repositories
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+;;; Packages
+(require 'package)
+(require 'use-package)
+
+(use-package evil
+  :ensure t
+  :init (timeit
+	 "EVIL"
+
+	 (defun new-tab ()
+	   "Open file in new tab."
+	   (interactive)
+	   (ido-find-file-other-frame))
+
+	 (defun delete-tab ()
+	   "Delete current tab."
+	   (interactive)
+	   (delete-frame))
+
+	 (defun next-tab ()
+	   "Switch to next tab."
+	   (interactive)
+	   (other-frame 1))
+
+	 (defun previous-tab ()
+	   "Switch to previous tab."
+	   (interactive)
+	   (other-frame -1))
+
+	 (use-package evil-nerd-commenter
+	   :ensure t)
+
+	 (evil-mode t)
+	 ;; (define-key evil-normal-state-map (kbd ",t") 'new-tab)
+	 (define-key evil-normal-state-map (kbd "C-w t") 'new-tab)
+	 (define-key evil-normal-state-map (kbd "C-w x") 'delete-tab)
+	 (define-key evil-normal-state-map (kbd "lL") 'next-tab)
+	 (define-key evil-normal-state-map (kbd "gT") 'previous-tab)
+	 (define-key evil-normal-state-map (kbd ",gg") 'vc-git-grep)
+	 (define-key evil-normal-state-map (kbd ",G") 'rgrep)
+	 (define-key evil-normal-state-map (kbd ",m") 'menu-bar-mode)
+	 (define-key evil-visual-state-map (kbd ",c") 'evilnc-comment-or-uncomment-lines)
+	 ))
+
+
 (require 'magit)
 ;;  ;; magit stuff!!
 ;(magit-file-header ((t (:foreground "violet"))))
