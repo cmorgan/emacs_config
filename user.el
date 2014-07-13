@@ -57,7 +57,7 @@
 	 ;; (define-key evil-normal-state-map (kbd ",t") 'new-tab)
 	 (define-key evil-normal-state-map (kbd "C-w t") 'new-tab)
 	 (define-key evil-normal-state-map (kbd "C-w x") 'delete-tab)
-	 (define-key evil-normal-state-map (kbd "lL") 'next-tab)
+	 ;(define-key evil-normal-state-map (kbd "lL") 'next-tab)
 	 (define-key evil-normal-state-map (kbd "gT") 'previous-tab)
 	 (define-key evil-normal-state-map (kbd ",gg") 'vc-git-grep)
 	 (define-key evil-normal-state-map (kbd ",G") 'rgrep)
@@ -111,7 +111,8 @@
 	 (ido-mode t)
 	 (ido-everywhere t)
 	 (setq ido-enable-flex-matching t)
-	 (setq ido-file-extensions-order '(".py" ".js" ".emacs" t))))
+	 (setq ido-file-extensions-order '(".py" ".js" ".emacs" t))
+	 ))
 
 
 (use-package tool-bar
@@ -236,7 +237,6 @@
   :commands cider-jack-in)
 
 
-
 (use-package org
   :init (progn
 	    (global-set-key (kbd "C-c o a") 'org-agenda)
@@ -245,22 +245,20 @@
 		)
   )
 
-
 (add-to-list 'load-path "~/.emacs.d/elpa/tabbar/")
-(require 'tabbar)
-(global-set-key (kbd "C-h") 'tabbar-backward)
-(global-set-key (kbd "C-l") 'tabbar-forward)
+(use-package tabbar
+  :init
+  (progn
+    (tabbar-mode 1)
+	(global-set-key (kbd "C-h") 'tabbar-backward)
+	(global-set-key (kbd "C-l") 'tabbar-forward)
 
-(global-set-key (kbd "C-j") 'tabbar-backward-group)
-(global-set-key (kbd "C-k") 'tabbar-forward-group)
-
-;; `tabbar-backward-group'     (C-c <C-up>)
-;; `tabbar-forward-group'      (C-c <C-down>)
-
-
-(global-set-key [M-left] 'tabbar-backward-tab)
-(global-set-key [M-right] 'tabbar-forward-tab)
-
+	(global-set-key (kbd "C-c j") 'tabbar-backward-group)
+	(global-set-key (kbd "C-c k") 'tabbar-forward-group)
+	;; `tabbar-backward-group'     (C-c <C-up>)
+	;; `tabbar-forward-group'      (C-c <C-down>)
+	)
+  )
 
 (setq indent-tabs-mode t)
 (setq-default indent-tabs-mode t)
@@ -306,7 +304,7 @@
 			     (background-color . "black")
 			     (foreground-color . "green")
 			     (cursor-color . "green")
-			     (border-width . 0)
+			     (border-width . 0.2)
 			     (border-color . "black"); should be unnecessary
 			     (internal-border-width . 64); whitespace!
 			     (cursor-type . box)
@@ -436,3 +434,6 @@
 (setq hippie-expand-try-functions-list (delete 'try-complete-file-name-partially hippie-expand-try-functions-list))
 
 (setq ido-use-filename-at-point nil)
+
+(provide 'user)
+;;; user.el ends here
