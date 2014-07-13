@@ -8,6 +8,7 @@
 (setq auto-save-default nil)
 
 (load-file "~/.emacs.d/util.el")
+;(load-file "~/.emacs.d/purple-theme.el")
 
 (global-set-key "\C-x\C-b" 'buffer-menu)
 ;; (global-set-key (kbd "C-c h") 'windmove-left)
@@ -98,7 +99,10 @@
   :ensure t
   :config (progn
 	    (define-key evil-normal-state-map (kbd ",gb") 'magit-blame-mode)
-	    (global-set-key (kbd "C-x G") 'magit-status)))
+	    (global-set-key (kbd "C-x G") 'magit-status)
+
+
+        ))
 
 (use-package projectile
   :ensure t
@@ -449,6 +453,8 @@
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'tomorrow-night-bright t)
 
+;(load-theme 'cyberpunk t)
+
 
 (load "~/.emacs.d/vendor/clojure")
 
@@ -484,29 +490,13 @@
 	  (if this-win-2nd (other-window 1))))))
 
 (global-set-key (kbd "C-c s") 'toggle-window-split)
-
-;; magit theme adjustment
-(magit-branch ((t (:bold t :weight bold))))
-(magit-diff-add ((t (:foreground "white"))))
-(magit-diff-del ((t (:foreground "OrangeRed"))))
-(magit-diff-file-header ((t (nil))))
-(magit-diff-hunk-header ((t (:italic t :slant italic))))
-(magit-diff-none ((t (nil))))
-(magit-header ((t (nil))))
-(magit-item-highlight ((t (:background "dim gray"))))
-(magit-item-mark ((t (:foreground "orange"))))
-(magit-log-graph ((t (:foreground "grey80"))))
-(magit-log-head-label-bisect-bad ((t (:background "IndianRed1" :foreground "IndianRed4" :box 1))))
-(magit-log-head-label-bisect-good ((t (:background "light green" :foreground "dark olive green" :box 1))))
-(magit-log-head-label-local ((t (:background "Grey13" :foreground "LightSkyBlue1" :box 1))))
-(magit-log-head-label-patches ((t (:background "IndianRed1" :foreground "IndianRed4" :box 1))))
-(magit-log-head-label-remote ((t (:background "Grey11" :foreground "DarkSeaGreen2" :box 1))))
-(magit-log-head-label-tags ((t (:background "LemonChiffon1" :foreground "goldenrod4" :box 1))))
-(magit-log-message ((t (nil))))
-(magit-log-sha1 ((t (:foreground "tomato"))))
-(magit-log-tag-label ((t (:background "DarkGoldenRod"))))
-(magit-menu-selected-option ((t (:foreground "orange"))))
-(magit-section-title ((t (:bold t :weight bold))))
+;; change magit diff colors
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")
+     (when (not window-system)
+       (set-face-background 'magit-item-highlight "black"))))
 
 (provide 'user)
 ;;; user.el ends here
