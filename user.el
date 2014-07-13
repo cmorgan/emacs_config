@@ -10,10 +10,10 @@
 (load-file "~/.emacs.d/util.el")
 
 (global-set-key "\C-x\C-b" 'buffer-menu)
-(global-set-key (kbd "C-c h") 'windmove-left)
-(global-set-key (kbd "C-c j") 'windmove-down)
-(global-set-key (kbd "C-c k") 'windmove-up)
-(global-set-key (kbd "C-c l") 'windmove-right)
+;; (global-set-key (kbd "C-c h") 'windmove-left)
+;; (global-set-key (kbd "C-c j") 'windmove-down)
+;; (global-set-key (kbd "C-c k") 'windmove-up)
+;; (global-set-key (kbd "C-c l") 'windmove-right)
 (global-set-key (kbd "C-c t") 'ansi-term)
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
 
@@ -81,13 +81,17 @@
 	  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)))
 
 
-(use-package flycheck
-  :ensure t
-  :init (timeit
-	 "FLYCHECK"
-	 (add-hook 'after-init-hook #'global-flycheck-mode)
-	 (setq flycheck-highlighting-mode 'lines)
-	 (setq python-check-function "flake8")))
+;; Set the number to the number of columns to use.
+(setq-default fill-column 79)
+
+;; Add Autofill mode to mode hooks.
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; Show line number in the mode line.
+(line-number-mode 1)
+
+;; Show column number in the mode line.
+(column-number-mode 1)
 
 
 (use-package magit
@@ -144,12 +148,14 @@
 	 (xclip-mode t)))
 
 
-(use-package text-mode
-  :mode "README"
-  :init (progn
-	  (add-hook 'text-mode-hook
-		    (lambda ()
-		      (flyspell-mode t)))))
+;; (use-package text-mode
+;;   :mode "README"
+;;   :init (progn
+;; 	  (add-hook 'text-mode-hook
+;; 		    (lambda ()
+;; 		      (flyspell-mode nil)))))
+
+(remove-hook 'text-mode-hook 'turn-on-flyspell)
 
 (use-package jedi
   :ensure t
@@ -242,6 +248,7 @@
 	    (global-set-key (kbd "C-c o a") 'org-agenda)
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
+		(setq org-log-done t)
 		)
   )
 
@@ -250,8 +257,8 @@
   :init
   (progn
     (tabbar-mode 1)
-	(global-set-key (kbd "C-h") 'tabbar-backward)
-	(global-set-key (kbd "C-l") 'tabbar-forward)
+	(global-set-key (kbd "C-c h") 'tabbar-backward)
+	(global-set-key (kbd "C-c l") 'tabbar-forward)
 
 	(global-set-key (kbd "C-c j") 'tabbar-backward-group)
 	(global-set-key (kbd "C-c k") 'tabbar-forward-group)
@@ -260,13 +267,17 @@
 	)
   )
 
-(setq indent-tabs-mode t)
-(setq-default indent-tabs-mode t)
-(global-set-key (kbd "TAB") 'self-insert-command)
-(setq default-tab-width 4)
-;(setq tab-width 4)
-;(setq c-basic-indent 4)
+;; (setq indent-tabs-mode t)
+;; (setq-default indent-tabs-mode t)
+;; ;; (global-set-key (kbd "TAB") 'self-insert-command)
+;; (setq default-tab-width 4)
+;; (setq tab-width 4)
+;; (setq c-basic-indent 4)
 
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
 
 ;; keep visual mode active when indenting
 (define-key evil-visual-state-map (kbd "<") (lambda ()
@@ -320,15 +331,29 @@
     (when (fboundp 'w32-send-sys-command)
       (w32-send-sys-command 61488 frame))))
 
+
+(use-package electric
+  :init (timeit
+	 "ELECTRIC"
+	 ;; Ignoring electric indentation
+	 (defun electric-indent-ignore-python (char)
+	   "Ignore electric indentation for 'python-mode' after CHAR."
+	   (if (equal major-mode 'python-mode)
+	       `no-indent'
+	     nil))
+	 (electric-indent-mode t)
+	 (add-hook 'electric-indent-functions
+		   'electric-indent-ignore-python)))
+
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-(cua-mode t)
-    (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
-    (transient-mark-mode 1)               ;; No region when it is not highlighted
-    (setq cua-keep-region-after-copy t)
+;; (cua-mode t)
+;;     (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
+;;     (transient-mark-mode 1)               ;; No region when it is not highlighted
+;;     (setq cua-keep-region-after-copy t)
 
 (autoload 'markdown-mode "markdown-mode"
 		     "Major mode for editing Markdown files" t)
@@ -424,8 +449,6 @@
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'tomorrow-night-bright t)
 
-;; Flyspell often slows down editing so it's turned off
-(remove-hook 'text-mode-hook 'turn-on-flyspell)
 
 (load "~/.emacs.d/vendor/clojure")
 
