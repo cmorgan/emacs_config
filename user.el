@@ -18,6 +18,10 @@
 (global-set-key (kbd "C-c t") 'ansi-term)
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
 
+;; Add '_' to the meaning of ":word:" everytime a buffer is loaded:
+(add-hook 'after-change-major-mode-hook
+          '(lambda () (modify-syntax-entry ?_ "w")))
+  
 ;; Repositories
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
