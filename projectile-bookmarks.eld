@@ -1,0 +1,1 @@
+("~/.emacs.d/" "~/josh_emacs/" "~/src/gangway/" "~/src/other/docs/" "~/src/other/jsoneditor/" "~/src/tas/" "~/src/other/deepeast/")

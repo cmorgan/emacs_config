@@ -1,0 +1,95 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Wed Jul 23 11:15:45 2014
+;; Desktop file format version 206
+;; Emacs version 24.4.50.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
+(setq regexp-search-ring '("model-extra" "with-custom-tags" "mandar" "tags" "admin"))
+(setq register-alist '((113) (48 . "<script type=\"text/javascript\">\n")))
+(setq file-name-history '("/home/chris/src/gangway/src/com/solo/gangway/api.clj" "~/src/gangway/src/com/solo/gangway/web.clj" "~/src/gangway/src/com/solo/gangway/main.clj" "~/src/gangway/src/com/solo/gangway/api.clj" "~/src/gangway/project.clj" "~/src/gangway/resources/questionnaire_01.edn" "~/src/gangway/resources/questionnaire_02.edn" "~/src/gangway/resources/answers.mustache" "~/src/gangway/resources/public/static/css/style.css" "~/.emacs.d/elpa/cl-lib-0.5/cl-lib-autoloads.el" "~/.emacs.d/elpa/archives/tromey/archive-contents" "~/.emacs.d/elpa/archives/marmalade/archive-contents" "~/.emacs.d/elpa/archives/gnu/archive-contents" "~/src/gangway/resources/_navbar.mustache" "~/src/westpoint_wiki/Accounts.md" "~/src/westpoint/website/invkimarche.aspx.vb" "~/src/westpoint/website/invoice2.aspx" "~/src/tradewestpoint/invoice2.aspx" "~/src/gangway/src/com/solo/gangway/static_data.clj" "~/src/gangway/src/com/solo/gangway/utils.clj" "~/src/gangway/resources/config.edn"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/chris/src/gangway/resources/field/field.mustache"
+  "field.mustache"
+  'web-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode magit-auto-revert-mode hi-lock-mode)
+  190
+  '(267 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (column-number-mode . t)))
+
+(desktop-create-buffer 206
+  "/home/chris/src/gangway/resources/edit.mustache"
+  "edit.mustache"
+  'web-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode magit-auto-revert-mode)
+  1
+  '(29 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (column-number-mode . t)))
+
+(desktop-create-buffer 206
+  "/home/chris/src/gangway/resources/field/notes.mustache"
+  "notes.mustache"
+  'web-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode magit-auto-revert-mode hi-lock-mode)
+  416
+  '(3 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (column-number-mode . t)))
+
+(desktop-create-buffer 206
+  "/home/chris/src/gangway/src/com/solo/gangway/rendering.clj"
+  "rendering.clj"
+  'clojure-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode paredit-mode magit-auto-revert-mode hi-lock-mode)
+  2915
+  '(3053 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (column-number-mode . t)))
+
+(desktop-create-buffer 206
+  "/home/chris/src/gangway/src/com/solo/gangway/web.clj"
+  "web.clj"
+  'clojure-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode paredit-mode magit-auto-revert-mode hi-lock-mode)
+  6193
+  '(231 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (column-number-mode . t)))
+
+(desktop-create-buffer 206
+  "/home/chris/src/gangway/src/com/solo/gangway/api.clj"
+  "api.clj"
+  'clojure-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode paredit-mode magit-auto-revert-mode hi-lock-mode)
+  2087
+  '(10098 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (column-number-mode . t)))
+
+(desktop-create-buffer 206
+  "/home/chris/.emacs.d/user.el"
+  "user.el"
+  'emacs-lisp-mode
+  '(auto-fill-mode projectile-mode undo-tree-mode global-auto-revert-mode override-global-mode paredit-mode magit-auto-revert-mode elisp-slime-nav-mode eldoc-mode)
+  1332
+  '(10012 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . prefer-utf-8-unix) (column-number-mode . t)))
+

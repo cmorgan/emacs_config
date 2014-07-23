@@ -8,7 +8,8 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(load "~/.emacs.d/user.el")
+(load "~/.emacs.d/user/user.el")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

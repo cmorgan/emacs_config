@@ -333,7 +333,7 @@ Default is non-nil. If nil, `py-pylint-run' offers filename from history "
   :type 'boolean
   :group 'python-mode)
 
-(defcustom py-hide-show-minor-mode-p t
+(defcustom py-hide-show-minor-mode-p nil
   "If hide-show minor-mode should be on, default is nil. "
 
   :type 'boolean

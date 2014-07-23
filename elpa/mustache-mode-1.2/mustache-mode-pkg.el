@@ -1,0 +1,2 @@
+;;; -*- no-byte-compile: t -*-
+(define-package "mustache-mode" "1.2" "A major mode for editing Mustache files." 'nil)
