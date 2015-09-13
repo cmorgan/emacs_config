@@ -9,6 +9,9 @@
 
 (load-file "~/.emacs.d/util.el")
 ;(load-file "~/.emacs.d/purple-theme.el")
+(set-default-font "Inconsolata-12")
+
+(setq org-agenda-files (list "~/docs/org"))
 
 (global-set-key "\C-x\C-b" 'buffer-menu)
 ;; (global-set-key (kbd "C-c h") 'windmove-left)
@@ -26,9 +29,13 @@
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+
 ;;; Packages
 (require 'package)
 (require 'use-package)
+
+ (require 'epa-file)
+    (epa-file-enable)
 
 (use-package evil
   :ensure t
@@ -251,29 +258,35 @@
   :commands cider-jack-in)
 
 
+
 (use-package org
   :init (progn
 	    (global-set-key (kbd "C-c o a") 'org-agenda)
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
+        (global-set-key  (kbd "C-c a t") 'org-todo-list)
 		(setq org-log-done t)
+		(setq org-agenda-files (list "~/docs/org/solo.org"
+									 "~/docs/org/dem.org" 
+									 "~/docs/org/biz.org" 
+									 "~/docs/org/pers.org"))
 		)
   )
 
-(add-to-list 'load-path "~/.emacs.d/elpa/tabbar/")
-(use-package tabbar
-  :init
-  (progn
-    (tabbar-mode 1)
-	(global-set-key (kbd "C-c h") 'tabbar-backward)
-	(global-set-key (kbd "C-c l") 'tabbar-forward)
+;; (add-to-list 'load-path "~/.emacs.d/elpa/tabbar/")
+;; (use-package tabbar
+;;   :init
+;;   (progn
+;;     (tabbar-mode 1)
+;; 	(global-set-key (kbd "C-c h") 'tabbar-backward)
+;; 	(global-set-key (kbd "C-c l") 'tabbar-forward)
 
-	(global-set-key (kbd "C-c j") 'tabbar-backward-group)
-	(global-set-key (kbd "C-c k") 'tabbar-forward-group)
-	;; `tabbar-backward-group'     (C-c <C-up>)
-	;; `tabbar-forward-group'      (C-c <C-down>)
-	)
-  )
+;; 	(global-set-key (kbd "C-c j") 'tabbar-backward-group)
+;; 	(global-set-key (kbd "C-c k") 'tabbar-forward-group)
+;; 	;; `tabbar-backward-group'     (C-c <C-up>)
+;; 	;; `tabbar-forward-group'      (C-c <C-down>)
+;; 	)
+;;   )
 
 ;; (setq indent-tabs-mode t)
 ;; (setq-default indent-tabs-mode t)
@@ -310,34 +323,6 @@
 	)
 
 
-(defun write-room ()
-  "Make a frame without any bling."
-  (interactive)
-  ;; to restore:
-  ;; (setq mode-line-format (default-value 'mode-line-format))
-  (let ((frame (make-frame '((minibuffer . nil)
-			     (vertical-scroll-bars . nil)
-			     (left-fringe . 0); no fringe
-			     (right-fringe . 0)
-			     (background-mode . dark)
-			     (background-color . "black")
-			     (foreground-color . "green")
-			     (cursor-color . "green")
-			     (border-width . 0.2)
-			     (border-color . "black"); should be unnecessary
-			     (internal-border-width . 64); whitespace!
-			     (cursor-type . box)
-			     (menu-bar-lines . 0)
-			     (tool-bar-lines . 0)
-			     (mode-line-format . nil) ; dream on... has no effect
-			     (fullscreen . fullboth)  ; this should work
-			     (unsplittable . t)))))
-    (select-frame frame)
-    (find-file "~/NOTES")
-    (setq mode-line-format nil); is buffer local unfortunately
-    ;; maximize window if fullscreen above had no effect
-    (when (fboundp 'w32-send-sys-command)
-      (w32-send-sys-command 61488 frame))))
 
 
 (use-package electric
@@ -493,6 +478,7 @@
 	  (select-window first-win)
 	  (if this-win-2nd (other-window 1))))))
 
+
 (global-set-key (kbd "C-c s") 'toggle-window-split)
 ;; change magit diff colors
 (eval-after-load 'magit
@@ -502,5 +488,85 @@
      (when (not window-system)
        (set-face-background 'magit-item-highlight "black"))))
 
+
+(defun diary ()
+  (interactive)
+  (let ((daily-name (concat (format-time-string "%y%m%d") ".gpg")))
+       (find-file (concat "~/docs/d/" daily-name))
+    )
+   (goto-char 1)
+  (insert "-*- mode: markdown -*- -*- epa-file-encrypt-to: (\"chris.j.morgan@gmail.com\") -*-"))
+
+(global-set-key (kbd "C-c d") 'diary)
+
+(defun daily ()
+  (interactive)
+  (let ((daily-name (format-time-string "%T")))
+    (find-file daily-name)))
+
 (provide 'user)
 ;;; user.el ends here
+
+
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
+  :init (progn
+	  (defun python-insert-breakpoint ()
+	    "Insert Python breakpoint above point."
+	    (interactive)
+	    (evil-open-above 1)
+	    (insert "import ipdb; ipdb.set_trace()  # BREAKPOINT")
+	    (evil-normal-state)))
+  :config (timeit
+	 "PYTHON"
+
+	 (defun python-current-function ()
+	   (save-excursion
+	     (end-of-line)
+	     (beginning-of-defun)
+	     (search-forward-regexp " *def \\(\\w+\\)")
+	     (message (match-string-no-properties 1))))
+
+	 (defun python-pytest-current-file ()
+	   (interactive)
+	   (async-shell-command
+	    (concat
+	     "py.test -v "
+	     (buffer-file-name))))
+
+	 (defun python-pytest-at-point ()
+	   (interactive)
+	   (async-shell-command
+	    (concat
+	     "py.test -v "
+	     (buffer-file-name)
+	     " -k "
+	     (thing-at-point 'word))))
+
+	 (defun python-pytest-current-function ()
+	   (interactive)
+	   (async-shell-command
+	    (concat
+	     "py.test -v "
+	     (buffer-file-name)
+	     " -k "
+	     (python-current-function))))
+
+	 (font-lock-add-keywords
+	   'python-mode
+	   '(("\\<\\(TODO\\)\\>" 1 font-lock-warning-face t)
+	     ("\\<\\(FIXME\\)\\>" 1 font-lock-warning-face t)))
+
+	  (add-hook 'python-mode-hook
+		    (lambda ()
+		      ;; Underscore part of word in Python
+		      (modify-syntax-entry ?\_ "w" python-mode-syntax-table)
+		      ;; Autocompletion
+		      (jedi:setup)
+		      ;; Keybidings
+		      (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
+		      (define-key evil-normal-state-map (kbd ",t") 'python-pytest-current-function)
+		      (define-key evil-normal-state-map (kbd ",T") 'python-pytest-current-file)
+		      ;; Enter key executes newline-and-indent
+		      (local-set-key (kbd "RET") 'newline-and-indent)))))
